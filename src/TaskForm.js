@@ -72,7 +72,6 @@ const TaskForm = ({ kisiler, submitFn }) => {
     });
   }
 
-
   // diğer form alanları değiştikçe çalışan ve yeni değeri state'e ekleyen fonksiyon
   function handleOthersChange(e) {
     const { name, value } = e.target;
@@ -125,8 +124,7 @@ const TaskForm = ({ kisiler, submitFn }) => {
           id="description"
           name="description"
           onChange={handleOthersChange}
-          value={formData.description}
-        ></textarea>
+          value={formData.description}></textarea>
         <p className="input-error">{formErrors.description}</p>
       </div>
 
@@ -153,8 +151,7 @@ const TaskForm = ({ kisiler, submitFn }) => {
         <button
           className="submit-button"
           type="submit"
-          disabled={buttonDisabled}
-        >
+          disabled={buttonDisabled}>
           Kaydet
         </button>
       </div>

@@ -1,12 +1,15 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 
-export default function TaskHookForm() {
+export default function TaskHookForm(submitFn, kisiler) {
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm();
+  } = useForm({
+    mode: "onChange",
+    defaultValues: { title: "", description: "", people: [] },
+  });
   function newSubmit(data) {
     console.log(data);
   }
@@ -51,32 +54,36 @@ export default function TaskHookForm() {
       </div>
       <div className="form-line">
         <label className="input-label">İnsanlar</label>
-        <label className="input-checkbox">
-          <input
-            type="checkbox"
-            {...register("people", {
-              required: "Lütfen en az bir kişi seçin",
-              minLength: {
-                value: 1,
-                message: "Lütfen en az bir kişi seçin",
-              },
-              maxLength: {
-                value: 3,
-                message: "En fazla 3 kişi seçebilirsiniz",
-              },
-            })}
-            value="Onur"
-          />
-          Onur
-        </label>
-        <label className="input-checkbox">
-          <input
-            type="checkbox"
-            {...register("people", { required: true })}
-            value="Gülşah"
-          />
-          Onur
-        </label>
+
+        {kisiler.map((p) => (
+          <label className="input-checkbox" key={p}>
+            <input
+              type="checkbox"
+              {...register("people", {
+                altSinir: (secim) =>
+                  secim.length >= 1 || "Lütfen en az 1 kişi seçiniz.",
+                üstSinir: (secim) =>
+                  secim.length <= 3 || "En fazla 3 kişi seçebilirsiniz.",
+              })}
+              value={p}
+            />
+          </label>
+        ))}
+
+        {kisiler.map((p) => (
+          <label className="input-checkbox" key={p}>
+            <input
+              type="checkbox"
+              {...register("people", {
+                altSinir: (secim) =>
+                  secim.length >= 1 || "Lütfen en az 1 kişi seçiniz.",
+                üstSinir: (secim) =>
+                  secim.length <= 3 || "En fazla 3 kişi seçebilirsiniz.",
+              })}
+              value={p}
+            />
+          </label>
+        ))}
       </div>
       <p className="input-error">{errors.people?.required}</p>
       <div className="form-line">
